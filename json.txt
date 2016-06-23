@@ -1,4 +1,0 @@
-{"id": 1, "message": "hello there"}
-{"id": 2, "message": "hello there too"}
-{"id": 3, "message": "hello there good day"}
-{"id": 4, "message": "hello there"}

@@ -27,4 +27,10 @@ var (
 	// ErrMatchNotFound is returned when a given match could not
 	// be found in a source record of the file.
 	ErrMatchNotFound = errors.New("Could not find match in record")
+
+	// ErrUnknownEscapeSeq is returned the example includes an
+	// unknown escape sequence.
+	//
+	// Characters that can be escaped are: \ { }
+	ErrUnknownEscapeSeq = errors.New("Unknown escape sequence")
 )

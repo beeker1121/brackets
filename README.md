@@ -10,7 +10,7 @@ Build the program:
 $ go build
 ```
 
-This example so far comes with two test files, `list.csv` and `json.txt`.
+This example so far comes with two test files, `list.csv` and `tracks.csv`.
 
 Run the program using a test file
 
@@ -20,38 +20,48 @@ $ ./brackets list.csv
 
 To provide an example when prompted, use brackets {} to signify the start and end position of matches in the source string:
 
-Source: `1,      "Sometimes Things Get, Whatever"        7:15`  
- Input: `Track {1} is {7}m{15}s long`  
-Result: Track 1 is 7m15s long  
+Source: `23,Michael Jordan,Bulls`  
+ Input: `{Jordan} played for the {Bulls}`  
+Result: Jordan played for the Bulls  
 
-So far, this version cannot handle escaping brackets.
-
-## Example
+## Examples
 
 ```
 $ go build
 $ ./brackets list.csv
 First 5 records of file:
-1.      "Sometimes Things Get, Whatever"        7:15
-2.      "Complications" 5:31
-3.      "Slip"  6:44
-4.      "Some Kind of Blue"     6:19
-5.      "Brazil (2nd Edit)"     5:23
+23,Michael Jordan,Bulls
+33,Scottie Pippen,Bulls
+25,Steve Kerr,Bulls
 
 Please provide an example of how to format the first record:
-Track #{1} is "{Sometimes Things Get, Whatever}" and is {7}m{15}s long
+{Michael} {Jordan} played for the {Bulls} as #{23}
 
 Results:
-Track #1 is "Sometimes Things Get, Whatever" and is 7m15s long
-Track #2 is "Complications" and is 5m31s long
-Track #3 is "Slip" and is 6m44s long
-Track #4 is "Some Kind of Blue" and is 6m19s long
-Track #5 is "Brazil (2nd Edit)" and is 5m23s long
-Track #6 is "Alone With You" and is 7m30s long
-Track #7 is "I Remember" and is 9m07s long
-Track #8 is "Faxing Berlin (Piano Acoustic Version)" and is 1m39s long
-Track #9 is "Faxing Berlin" and is 2m36s long
-Track #10 is "Not Exactly" and is 8m00s long
-Track #11 is "Arguru" and is 5m30s long
-Track #12 is "So There I Was" and is 6m49s long
+Michael Jordan played for the Bulls as #23
+Scottie Pippen played for the Bulls as #33
+Steve Kerr played for the Bulls as #25
+```
+
+```
+./brackets tracks.csv
+First 5 records of file:
+1,JOYRIDE,The Box,4:38
+2,Kryoman & Pairanoid,My Squads Lit Ft SHAQ,3:56
+3,SNAKEHIPS,Money On Me ft. Anderson .Paak,2:53
+4,Allen Watts,Out of Reach (Thomas Hayes Remix),7:17
+5,ANDRU.,ALL NIGHT,1:36
+
+Please provide an example of how to format the first record:
+\{"id": {1}, "artist": "{JOYRIDE}", "title": "{The Box}", "time": "{4:38}"\}
+
+Results:
+{"id": 1, "artist": "JOYRIDE", "title": "The Box", "time": "4:38"}
+{"id": 2, "artist": "Kryoman & Pairanoid", "title": "My Squads Lit Ft SHAQ", "time": "3:56"}
+{"id": 3, "artist": "SNAKEHIPS", "title": "Money On Me ft. Anderson .Paak", "time": "2:53"}
+{"id": 4, "artist": "Allen Watts", "title": "Out of Reach (Thomas Hayes Remix)", "time": "7:17"}
+{"id": 5, "artist": "ANDRU.", "title": "ALL NIGHT", "time": "1:36"}
+{"id": 6, "artist": "Mystery Skulls", "title": "Ghost", "time": "4:17"}
+{"id": 7, "artist": "Spencer & Hill ft. Lil Jon", "title": "Less Go! (Porter Robinson Remix)", "time": "7:04"}
+{"id": 8, "artist": "The M Machine", "title": "When It's Gone (Mat Zo Remix)", "time": "4:56"}
 ```

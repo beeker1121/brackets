@@ -126,7 +126,7 @@ func main() {
 	}
 
 	// Parse the example to get bracket matches.
-	matches, err := parse(ex, fd)
+	matches, err := parse(&ex, fd)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
 		os.Exit(1)

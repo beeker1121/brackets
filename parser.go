@@ -7,7 +7,7 @@ import (
 )
 
 // parse parses the example and file data to determine match data.
-func parse(example string, filedata []byte) ([]*Match, error) {
+func parse(example *string, filedata []byte) ([]*Match, error) {
 	// Get first record from file.
 	bfd := bytes.NewBuffer(filedata)
 	scanner := bufio.NewScanner(bfd)
@@ -37,16 +37,46 @@ func parse(example string, filedata []byte) ([]*Match, error) {
 }
 
 // getMatches parses the example brackets.
-func getMatches(example string) ([]*Match, error) {
+func getMatches(example *string) ([]*Match, error) {
 	var matches []*Match
 	var start int
-	var startFound, endFound bool
+	var startFound, endFound, inEscapeMode bool
 
 	// Convert example string into runes.
-	runes := []rune(example)
+	runes := []rune(*example)
+
+	// Create variable to hold unescaped example runes.
+	newRunes := make([]rune, 0)
 
 	// Loop through the example runes.
-	for i, r := range runes {
+	var idx int
+	for _, r := range runes {
+		// Handle escaping.
+		if inEscapeMode {
+			switch r {
+			case rune('\\'):
+				newRunes = append(newRunes, r)
+				inEscapeMode = false
+				idx++
+				continue
+			case rune('{'):
+				newRunes = append(newRunes, r)
+				inEscapeMode = false
+				idx++
+				continue
+			case rune('}'):
+				newRunes = append(newRunes, r)
+				inEscapeMode = false
+				idx++
+				continue
+			default:
+				return nil, ErrUnknownEscapeSeq
+			}
+		} else if !inEscapeMode && r == rune('\\') {
+			inEscapeMode = true
+			continue
+		}
+
 		// If we found a starting bracket.
 		if r == rune('{') {
 			// Check if we have already found a starting bracket.
@@ -55,7 +85,7 @@ func getMatches(example string) ([]*Match, error) {
 			}
 			startFound = true
 
-			start = i
+			start = idx
 		}
 
 		// If we found an ending bracket.
@@ -69,21 +99,27 @@ func getMatches(example string) ([]*Match, error) {
 
 			// Create a new Match.
 			match := &Match{
-				Value: string(runes[start+1 : i]),
-				runes: runes[start+1 : i],
+				Value: string(newRunes[start+1 : idx]),
+				runes: newRunes[start+1 : idx],
 				start: start,
-				end:   i,
+				end:   idx,
 			}
 
 			// Append to matches.
 			matches = append(matches, match)
 		}
+
+		newRunes = append(newRunes, r)
+		idx++
 	}
 
 	// If an ending bracket was not found.
 	if !endFound {
 		return nil, ErrMissingEndingBracket
 	}
+
+	// Set given example to new, unescaped version.
+	*example = string(newRunes)
 
 	return matches, nil
 }
