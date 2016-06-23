@@ -1,4 +1,4 @@
-# Brackets
+# Brackets [![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/github.com/beeker1121/brackets) [![License](http://img.shields.io/badge/license-mit-blue.svg)](https://raw.githubusercontent.com/beeker1121/brackets/master/LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/beeker1121/brackets)](https://goreportcard.com/report/github.com/beeker1121/brackets)
 
 Brackets formats data in any file with a single example of what the new format should look like.
 
