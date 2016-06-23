@@ -27,7 +27,6 @@ Result: Jordan played for the Bulls
 ## Examples
 
 ```
-$ go build
 $ ./brackets list.csv
 First 5 records of file:
 23,Michael Jordan,Bulls
@@ -44,7 +43,7 @@ Steve Kerr played for the Bulls as #25
 ```
 
 ```
-./brackets tracks.csv
+$ ./brackets tracks.csv
 First 5 records of file:
 1,JOYRIDE,The Box,4:38
 2,Kryoman & Pairanoid,My Squads Lit Ft SHAQ,3:56
