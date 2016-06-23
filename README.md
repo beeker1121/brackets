@@ -32,11 +32,11 @@ So far, this version cannot handle escaping brackets.
 $ go build
 $ ./brackets list.csv
 First 5 records of file:
-1,      "Sometimes Things Get, Whatever"        7:15
-2,      "Complications" 5:31
-3,      "Slip"  6:44
-4,      "Some Kind of Blue"     6:19
-5,      "Brazil (2nd Edit)"     5:23
+1.      "Sometimes Things Get, Whatever"        7:15
+2.      "Complications" 5:31
+3.      "Slip"  6:44
+4.      "Some Kind of Blue"     6:19
+5.      "Brazil (2nd Edit)"     5:23
 
 Please provide an example of how to format the first record:
 Track #{1} is "{Sometimes Things Get, Whatever}" and is {7}m{15}s long

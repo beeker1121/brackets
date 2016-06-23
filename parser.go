@@ -133,13 +133,41 @@ func findPrevNextRune(record string, matches []*Match) error {
 
 		// If this match is at the end of the record.
 		if idx+len(m.Value) == len(runes) {
-			m.nextr = rune('$')
+			m.isAtEnd = true
 		} else {
 			m.nextr = runes[idx+len(m.Value)]
 		}
 	}
 
 	return nil
+}
+
+// escape escapes regexp tokens.
+func escape(token string) string {
+	switch token {
+	case ".":
+		return "\\."
+	case "^":
+		return "\\^"
+	case "$":
+		return "\\$"
+	case "[":
+		return "\\["
+	case "]":
+		return "\\]"
+	case "{":
+		return "\\{"
+	case "}":
+		return "\\}"
+	case "*":
+		return "\\*"
+	case "?":
+		return "\\?"
+	case "+":
+		return "\\+"
+	default:
+		return token
+	}
 }
 
 // getRegexp forms the regexp pattern for each match based
@@ -153,21 +181,25 @@ func getRegexp(record string, matches []*Match) error {
 
 		// Start loop to form regexp pattern.
 		for !found {
+			var prev, next string
+
+			// If previous rune is not null.
+			if m.prevr != 0 {
+				prev = escape(string(m.prevr))
+			}
+
+			// If this match is at the end of the record.
+			if m.isAtEnd {
+				next = "$"
+			} else {
+				next = escape(string(m.nextr))
+			}
+
 			// If first iteration.
 			if idx == 0 {
-				// If previous rune is null.
-				if m.prevr == 0 {
-					re = "(.*?)" + string(m.nextr)
-				} else {
-					re = string(m.prevr) + "(.*?)" + string(m.nextr)
-				}
+				re = prev + "(.*?)" + next
 			} else {
-				// If previous rune is null.
-				if m.prevr == 0 {
-					re = "(.*?)" + re
-				} else {
-					re = string(m.prevr) + "(.*?)" + re
-				}
+				re = prev + "(.*?)" + re
 			}
 
 			// Compile this regular expression and try to find exact
